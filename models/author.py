@@ -22,25 +22,22 @@ class Author:
         self._name = value
 
     def create_author(self, cursor):
-         # inserting a new author 
         cursor.execute("INSERT INTO authors (name) VALUES (?)", (self._name,))
         self._id = cursor.lastrowid
 
     @classmethod
-      # getting all authors
     def get_all_authors(cls, cursor):
         cursor.execute("SELECT * FROM authors")
         authors_data = cursor.fetchall()
         return [cls(id=row[0], name=row[1]) for row in authors_data]
 
     def articles(self, cursor):
-        # getting all articles associated with a specific author
+
         cursor.execute("SELECT * FROM articles WHERE author_id = ?", (self._id,))
         articles_data = cursor.fetchall()
         return articles_data
 
     def magazines(self, cursor):
-         # getting all magazines associated with a specific author
         cursor.execute("""
             SELECT magazines.*
             FROM magazines
